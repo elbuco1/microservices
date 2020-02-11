@@ -5,7 +5,9 @@ __pycache__/
 
 # C extensions
 *.so
-
+movies/movies_service
+*.db
+.vscode
 # Distribution / packaging
 .Python
 build/
