@@ -16,14 +16,27 @@ To list all available routes you can run <code>$ flask routes</code>
 
 To test the different routes you can do as follows:
 * Open a python terminal : <code>$ python</code>
-* Import requests package : <code>$ import request</code>
+* To create a simple GET request use the code below:
 ```python
-import request
+import requests
+# Create request
+request = "http://127.0.0.1:5000/movies/"
+# Send get request
+response = requests.get(request)
+# View returned json
+response.json()
 ```
-* Create a request : <code>$ request = "" import request</code>
+* More complex requests such as POST or PUT need data to be send as json:
+```python
+import requests
+# Create request
+request = "http://127.0.0.1:5000/movies/add"
+# Create json data
+data = {"name": "la cite de la peur", "year":1994}
+# Send get request
+response = requests.get(request, json = data)
+# View returned json
+response.json()
+```
 
-
-* Create a python3 virtual environment: <code>$ python3 -m venv movies_service</code>
-* Install dependencies from requirements.txt file:<code>$ pip install -r requirements.txt</code>
-* Initialize the database:<code>$ flask initdb</code>
-* Run the server: <code>$ flask run</code>
+### Server parameters
