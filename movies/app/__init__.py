@@ -14,7 +14,7 @@ from app import routes, models
 
 
 
-# flask init_db
+# flask initdb
 @app.cli.command()
 def initdb():
     models.init_db()
