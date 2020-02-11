@@ -34,9 +34,13 @@ request = "http://127.0.0.1:5000/movies/add"
 # Create json data
 data = {"name": "la cite de la peur", "year":1994}
 # Send get request
-response = requests.get(request, json = data)
+response = requests.post(request, json = data)
 # View returned json
 response.json()
 ```
 
 ### Server parameters
+
+* Server is set in the file **app/.flaskenv**.
+* To set the debug mode to false, remove the line: <code>$ FLASK_ENV=development</code>
+* To set the port, change the line: <code>$ FLASK_RUN_PORT=5000</code>
