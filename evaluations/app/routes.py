@@ -150,7 +150,7 @@ def del_evaluation(evaluation_id):
 
 @app.route('/evaluations/movies/<movie_id>', methods=['DELETE'])
 def del_evaluation_movie_id(movie_id):
-     """
+    """
     Deletes all the evaluations of a given movie based on its id.
     :param movie_id:
     :return: 

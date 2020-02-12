@@ -39,7 +39,7 @@ def movie(movie_id):
 @app.route('/movies/add', methods=['POST'])
 @app.route('/movies', methods=['POST'])
 def create_movie():
-     """ 
+    """ 
     Create a movie object.
     :param movie_id:
     :param request.json: a dictionnary containing fields
