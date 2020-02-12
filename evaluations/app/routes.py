@@ -32,6 +32,24 @@ def evaluation(evaluation_id):
     return make_response(jsonify({"evaluation": evaluation.serialize()}),200)
 
 
+@app.route('/evaluations/movies/<movie_id>', methods=['GET'])
+def movie_evaluations(movie_id):
+    try:
+        response = requests.get("http://127.0.0.1:5000/movies/{}".format(movie_id))
+        if response.status_code != 200:
+            return make_response(jsonify({"error":"Movie not found"}),404)
+
+        evaluations = ut.get_evaluations_movie_id(movie_id)
+        if len(evaluations) == 0:
+            return make_response(jsonify({"error":"No evaluations for this movie"}),404)
+
+        return make_response(jsonify({"evaluations":evaluations}),200)
+
+    except requests.exceptions.ConnectionError:
+        # raise ServiceUnavailable("The Movies service is unavailable.")
+        return make_response(jsonify({"error":"The Movies service is unavailable."}), 503)
+
+
 @app.route('/evaluations/add/<movie_id>', methods=['POST'])
 @app.route('/evaluations/<movie_id>', methods=['POST'])
 def create_evaluation(movie_id):
@@ -50,6 +68,9 @@ def create_evaluation(movie_id):
     except requests.exceptions.ConnectionError:
         # raise ServiceUnavailable("The Movies service is unavailable.")
         return make_response(jsonify({"error":"The Movies service is unavailable."}), 503)
+
+
+
     
     
         

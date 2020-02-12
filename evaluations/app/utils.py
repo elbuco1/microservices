@@ -23,6 +23,12 @@ def get_evaluations():
     evaluations = [e.serialize() for e in evaluations]
     return evaluations
 
+def get_evaluations_movie_id(movie_id):
+    evaluations = Evaluation.query.filter(Evaluation.movie_id == movie_id).all()
+    evaluations = [e.serialize() for e in evaluations]
+    return evaluations
+
+
 def get_evaluation(evaluation_id):
     evaluation = db.session.query(Evaluation).get(evaluation_id)
     # return evaluation.serialize()
