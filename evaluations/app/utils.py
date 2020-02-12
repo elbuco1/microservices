@@ -53,6 +53,20 @@ def delete_evaluation_by_id(evaluation_id):
     db.session.delete(evaluation)
     db.session.commit()
 
+def delete_evaluation_by_movie_id(movie_id):
+    evaluations = Evaluation.query.filter(Evaluation.movie_id == movie_id).all()
+    for evaluation in evaluations:
+        db.session.delete(evaluation)
+    db.session.commit()
+
+def check_movie_id_in_db(movie_id):
+    evaluations = Evaluation.query.filter(Evaluation.movie_id == movie_id).all()
+    if len(evaluations) == 0:
+        lg.warning('False!')
+        return False 
+    lg.warning('True!')    
+    return True
+
 def update_evaluation_by_id(evaluation_id,description):
     x = db.session.query(Evaluation).get(evaluation_id)
     x.description = description

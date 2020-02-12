@@ -49,6 +49,12 @@ def movie_evaluations(movie_id):
         # raise ServiceUnavailable("The Movies service is unavailable.")
         return make_response(jsonify({"error":"The Movies service is unavailable."}), 503)
 
+    ## If not checking if movie still exists in movie services
+    # evaluations = ut.get_evaluations_movie_id(movie_id)
+    # if len(evaluations) == 0:
+    #     return make_response(jsonify({"error":"No evaluations for this movie"}),404)
+    # return make_response(jsonify({"evaluations":evaluations}),200)
+
 
 @app.route('/evaluations/add/<movie_id>', methods=['POST'])
 @app.route('/evaluations/<movie_id>', methods=['POST'])
@@ -105,7 +111,15 @@ def del_evaluation(evaluation_id):
     if evaluation is None:
         abort(404)
     ut.delete_evaluation_by_id(evaluation_id)
-    return jsonify({"Deleted":True})
+    return make_response(jsonify({"Deleted":True}),200)
+
+@app.route('/evaluations/movies/<movie_id>', methods=['DELETE'])
+def del_evaluation_movie_id(movie_id):
+    if ut.check_movie_id_in_db(movie_id):
+        ut.delete_evaluation_by_movie_id(movie_id)
+        return make_response(jsonify({"Deleted":True}),200)
+    else:
+        return make_response(jsonify({"Error":"No evaluations for this movie"}), 404)
 
 @app.errorhandler(404)
 def not_found(error):
@@ -115,6 +129,3 @@ def not_found(error):
 def bad_request(error):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
-
-# if __name__ == "__main__":
-#     app.run(port=5000, debug=True)

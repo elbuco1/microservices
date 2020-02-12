@@ -3,6 +3,7 @@ from flask import Flask, render_template
 from flask import jsonify, make_response
 from flask import request, abort
 import logging as lg 
+import requests
 
 import app.utils as ut
 
@@ -36,7 +37,6 @@ def create_movie():
     movie_name = request.json['name']
     movie_year = request.json['year']
 
-    # if request.method == 'POST':
     movie = ut.add_movie(movie_name, movie_year)
     return make_response(jsonify({"movie": movie.serialize()}),201)
 
@@ -71,8 +71,14 @@ def del_movie(movie_id):
     if movie is None:
         abort(404)
     ut.delete_movie_by_id(movie_id)
-    # res = make_response(jsonify({"Deleted":True}), 204)
-    return jsonify({"Deleted":True})
+
+    #TODO replace with amqp protocol?
+    try:
+        requests.delete("http://127.0.0.1:5001/evaluations/movies/{}".format(movie_id))
+    except requests.exceptions.ConnectionError:
+        return make_response(jsonify({"error":"The Evaluations service is unavailable."}), 503)
+
+    return make_response(jsonify({"Deleted":True}),200)
 
 @app.errorhandler(404)
 def not_found(error):
@@ -82,6 +88,3 @@ def not_found(error):
 def bad_request(error):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
-
-# if __name__ == "__main__":
-#     app.run(port=5000, debug=True)
