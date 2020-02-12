@@ -26,7 +26,7 @@ class Evaluation(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
-    # db.session.add(Movie("Fight club", 1999))
-    # db.session.add(Movie("The social network", 2010))
-    # db.session.commit()
+    db.session.add(Evaluation("What a baaad movie!", 1))
+    db.session.add(Evaluation("Fincher at his best!", 2))
+    db.session.commit()
     lg.warning('Database initialized!')

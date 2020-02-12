@@ -7,9 +7,9 @@ from app import db
 import logging as lg 
 
 
-# def test_intersection(set_a, set_b):
-#     intersection = set_a.intersection(set_b) 
-#     return intersection == set_a
+def test_intersection(set_a, set_b):
+    intersection = set_a.intersection(set_b) 
+    return intersection == set_a
 
 
 
@@ -18,14 +18,14 @@ import logging as lg
 #     movie = movies[0]
 #     return str(movie.year)
 
-# def get_movies():
-#     movies = Movie.query.all()
-#     movies = [m.serialize() for m in movies]
-#     return movies
+def get_evaluations():
+    evaluations = Evaluation.query.all()
+    evaluations = [e.serialize() for e in evaluations]
+    return evaluations
 
-# def get_movie(movie_id):
-#     movie = db.session.query(Movie).get(movie_id)
-#     return movie.serialize()
+def get_evaluation(evaluation_id):
+    evaluation = db.session.query(Evaluation).get(evaluation_id)
+    return evaluation.serialize()
 
 
 
@@ -38,14 +38,13 @@ import logging as lg
 
 
 
-# def delete_movie_by_id(movie_id):
-#     movie = Movie.query.filter(Movie.id == movie_id).first()
-#     db.session.delete(movie)
-#     db.session.commit()
+def delete_evaluation_by_id(evaluation_id):
+    evaluation = Evaluation.query.filter(Evaluation.id == evaluation_id).first()
+    db.session.delete(evaluation)
+    db.session.commit()
 
-# def update_movie_by_id(movie_id,movie_name,movie_year):
-#     x = db.session.query(Movie).get(movie_id)
-#     x.name = movie_name
-#     x.year = movie_year
-#     db.session.commit()
-#     return x.serialize()
+def update_evaluation_by_id(evaluation_id,description):
+    x = db.session.query(Evaluation).get(evaluation_id)
+    x.description = description
+    db.session.commit()
+    return x.serialize()
