@@ -1,6 +1,3 @@
-# from src.models.movies import Movie
-# import src.models.movies as m
-
 from app.models import Evaluation
 from app import db
 
@@ -11,12 +8,6 @@ def test_intersection(set_a, set_b):
     intersection = set_a.intersection(set_b) 
     return intersection == set_a
 
-
-
-# def get_movie_year_by_name(movie_name, Movie):
-#     movies = Movie.query.filter(Movie.name == movie_name).all()
-#     movie = movies[0]
-#     return str(movie.year)
 
 def get_evaluations():
     evaluations = Evaluation.query.all()

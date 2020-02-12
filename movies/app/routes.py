@@ -13,6 +13,10 @@ import app.utils as ut
 @app.route('/', methods=['GET'])
 
 def all_movies():
+    """
+    Returns all movie  in the database for Movies
+    service
+    """
     movies = ut.get_movies()
     if len(movies) == 0:
         abort(404)
@@ -21,6 +25,11 @@ def all_movies():
 
 @app.route('/movies/<movie_id>', methods=['GET'])
 def movie(movie_id):
+    """
+    Returns a movie  given a movie id 
+    :param movie_id:
+    :return: A Movie
+    """
     movie = ut.get_movie(movie_id)
     if movie is None:
         abort(404)
@@ -30,6 +39,14 @@ def movie(movie_id):
 @app.route('/movies/add', methods=['POST'])
 @app.route('/movies', methods=['POST'])
 def create_movie():
+     """ 
+    Create a movie object.
+    :param movie_id:
+    :param request.json: a dictionnary containing fields
+    'name' and 'year.
+
+    :return: if success the created Movie object
+    """
     requested_fields = {'name', 'year'}
     included_fields = set(request.json.keys())
     if not request.json or not ut.test_intersection(requested_fields,included_fields):
@@ -44,6 +61,13 @@ def create_movie():
 @app.route('/movies/update/<movie_id>', methods=['PUT'])
 @app.route('/movies/<movie_id>', methods=['PUT'])
 def update_movie(movie_id):
+    """
+    Updates a movie based on its id.
+    :param movie_id:
+    :param request.json: a dictionnary containing fields
+    'name' and 'year.
+    :return: if success the updated Movie object
+    """
     requested_fields = {'name', 'year'}
     included_fields = set(request.json.keys())
 
@@ -67,6 +91,12 @@ def update_movie(movie_id):
 @app.route('/movies/delete/<movie_id>', methods=['DELETE'])
 @app.route('/movies/<movie_id>', methods=['DELETE'])
 def del_movie(movie_id):
+    """
+    Deletes a movie based on its id. Then calls the Evaluations service
+    to delete all the evaluations related to this movie
+    :param movie_id:
+    :return: 
+    """
     movie = ut.get_movie(movie_id)
     if movie is None:
         abort(404)
