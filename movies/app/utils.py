@@ -25,7 +25,9 @@ def get_movies():
 
 def get_movie(movie_id):
     movie = db.session.query(Movie).get(movie_id)
-    return movie.serialize()
+    # return movie.serialize()
+    return movie
+
 
 
 
@@ -34,7 +36,9 @@ def add_movie(movie_name, year):
     db.session.add(movie)
     db.session.commit()
     # movies = Movie.query.filter(Movie.id == movie.id)
-    return db.session.query(Movie).get(movie.id).serialize()
+    # return db.session.query(Movie).get(movie.id).serialize()
+    return db.session.query(Movie).get(movie.id)
+
 
 
 
@@ -48,4 +52,5 @@ def update_movie_by_id(movie_id,movie_name,movie_year):
     x.name = movie_name
     x.year = movie_year
     db.session.commit()
-    return x.serialize()
+    # return x.serialize()
+    return x

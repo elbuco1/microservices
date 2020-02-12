@@ -3,6 +3,9 @@ from flask import Flask, render_template
 from flask import jsonify, make_response
 from flask import request, abort
 import logging as lg 
+from werkzeug.exceptions import NotFound, ServiceUnavailable
+
+import requests
 
 import app.utils as ut
 
@@ -26,22 +29,30 @@ def evaluation(evaluation_id):
     evaluation = ut.get_evaluation(evaluation_id)
     if evaluation is None:
         abort(404)
-    return make_response(jsonify({"evaluation": evaluation}),200)
+    return make_response(jsonify({"evaluation": evaluation.serialize()}),200)
 
 
-# @app.route('/movies/add', methods=['POST'])
-# @app.route('/movies', methods=['POST'])
-# def create_movie():
-#     requested_fields = {'name', 'year'}
-#     included_fields = set(request.json.keys())
-#     if not request.json or not ut.test_intersection(requested_fields,included_fields):
-#         abort(400)
-#     movie_name = request.json['name']
-#     movie_year = request.json['year']
+@app.route('/evaluations/add/<movie_id>', methods=['POST'])
+@app.route('/evaluations/<movie_id>', methods=['POST'])
+def create_evaluation(movie_id):
+    requested_fields = {'description'}
+    included_fields = set(request.json.keys())
+    if not request.json or not ut.test_intersection(requested_fields,included_fields):
+        abort(400)
+    description = request.json['description']
+    try:
+        response = requests.get("http://127.0.0.1:5000/movies/{}".format(movie_id))
+        if response.status_code != 200:
+            return make_response(jsonify({"error":"Movie not found"}),404)
+        evaluation = ut.add_evaluation(description,movie_id)
+        return make_response(jsonify({"evaluation": evaluation.serialize()}),201)
 
-#     if request.method == 'POST':
-#         movie = ut.add_movie(movie_name, movie_year)
-#         return make_response(jsonify({"movie": movie}),201)
+    except requests.exceptions.ConnectionError:
+        # raise ServiceUnavailable("The Movies service is unavailable.")
+        return make_response(jsonify({"error":"The Movies service is unavailable."}), 503)
+    
+    
+        
 
 
 @app.route('/evaluations/update/<evaluation_id>', methods=['PUT'])
@@ -64,7 +75,7 @@ def update_evaluation(evaluation_id):
 
     included_fields = set(request.json.keys())
     evaluation = ut.update_evaluation_by_id(evaluation_id,description)
-    return make_response(jsonify(evaluation))
+    return make_response(jsonify(evaluation.serialize()))
 
 @app.route('/evaluations/delete/<evaluation_id>', methods=['DELETE'])
 @app.route('/evaluations/<evaluation_id>', methods=['DELETE'])

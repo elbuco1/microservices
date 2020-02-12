@@ -23,7 +23,7 @@ def movie(movie_id):
     movie = ut.get_movie(movie_id)
     if movie is None:
         abort(404)
-    return make_response(jsonify({"movie": movie}),200)
+    return make_response(jsonify({"movie": movie.serialize()}),200)
 
 
 @app.route('/movies/add', methods=['POST'])
@@ -36,9 +36,9 @@ def create_movie():
     movie_name = request.json['name']
     movie_year = request.json['year']
 
-    if request.method == 'POST':
-        movie = ut.add_movie(movie_name, movie_year)
-        return make_response(jsonify({"movie": movie}),201)
+    # if request.method == 'POST':
+    movie = ut.add_movie(movie_name, movie_year)
+    return make_response(jsonify({"movie": movie.serialize()}),201)
 
 
 @app.route('/movies/update/<movie_id>', methods=['PUT'])
@@ -62,7 +62,7 @@ def update_movie(movie_id):
 
     included_fields = set(request.json.keys())
     movie = ut.update_movie_by_id(movie_id,movie_name,movie_year)
-    return make_response(jsonify(movie))
+    return make_response(jsonify(movie.serialize()))
 
 @app.route('/movies/delete/<movie_id>', methods=['DELETE'])
 @app.route('/movies/<movie_id>', methods=['DELETE'])

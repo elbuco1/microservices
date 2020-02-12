@@ -25,16 +25,20 @@ def get_evaluations():
 
 def get_evaluation(evaluation_id):
     evaluation = db.session.query(Evaluation).get(evaluation_id)
-    return evaluation.serialize()
+    # return evaluation.serialize()
+    return evaluation
 
 
 
-# def add_movie(movie_name, year):
-#     movie = Movie(movie_name, year)
-#     db.session.add(movie)
-#     db.session.commit()
-#     # movies = Movie.query.filter(Movie.id == movie.id)
-#     return db.session.query(Movie).get(movie.id).serialize()
+
+def add_evaluation(description,movie_id):
+    evaluation = Evaluation(description,movie_id)
+    db.session.add(evaluation)
+    db.session.commit()
+    # movies = Movie.query.filter(Movie.id == movie.id)
+    # return db.session.query(Evaluation).get(evaluation.id).serialize()
+    return db.session.query(Evaluation).get(evaluation.id)
+
 
 
 
@@ -47,4 +51,5 @@ def update_evaluation_by_id(evaluation_id,description):
     x = db.session.query(Evaluation).get(evaluation_id)
     x.description = description
     db.session.commit()
-    return x.serialize()
+    # return x.serialize()
+    return x
