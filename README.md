@@ -25,7 +25,7 @@ Movies service runs on http://127.0.0.1:5000/
 To list all available routes you can run <code>$ flask routes</code>
 
 To test the different routes you can do as follows:
-* Open a python terminal : <code>$ python</code>
+* Open a new python terminal : <code>$ python</code>
 * To create a simple GET request use the code below:
 ```python
 import requests
@@ -51,7 +51,7 @@ response.json()
 
 
 ## Evaluations service
-
+Open another terminal.
 ### Run
 * Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
 * To start the micro-service, go in the **movies** directory: <code>$ cd microservices/evaluations</code>
@@ -67,7 +67,7 @@ Movies service runs on http://127.0.0.1:5001/
 To list all available routes you can run <code>$ flask routes</code>
 
 To test the different routes you can do as follows:
-* Open a python terminal : <code>$ python</code>
+* Open a new python terminal : <code>$ python</code>
 * To create a simple GET request use the code below:
 ```python
 import requests
