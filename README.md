@@ -6,6 +6,7 @@
 * Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
 * To start the micro-service, go in the **movies** directory: <code>$ cd microservices/movies</code>
 * Create a python3 virtual environment: <code>$ python3 -m venv movies_service</code>
+* Activate the environment: <code>$ source movies_service/bin/activate</code>
 * Install dependencies from requirements.txt file:<code>$ pip install -r requirements.txt</code>
 * Initialize the database:<code>$ flask initdb</code>
 * Run the server: <code>$ flask run</code>
