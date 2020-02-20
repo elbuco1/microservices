@@ -51,7 +51,7 @@ response.json()
 
 
 ## Evaluations service
-Open another terminal.
+Open another terminal:
 ### Run
 * Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
 * To start the micro-service, go in the **movies** directory: <code>$ cd microservices/evaluations</code>
