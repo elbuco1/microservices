@@ -6,16 +6,16 @@ import logging as lg
 
 
 
-app = Flask(__name__)
-app.config.from_object(Config)
-db = SQLAlchemy(app)
+application = Flask(__name__)
+application.config.from_object(Config)
+db = SQLAlchemy(application)
 
 from app import routes, models
 
 
 
 # flask initdb
-@app.cli.command()
+@application.cli.command()
 def initdb():
     models.init_db()
 

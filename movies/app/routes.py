@@ -1,4 +1,4 @@
-from app import app
+from app import application
 from flask import Flask, render_template
 from flask import jsonify, make_response
 from flask import request, abort
@@ -7,10 +7,10 @@ import requests
 
 import app.utils as ut
 
-@app.route('/movies/all', methods=['GET'])
-@app.route('/movies', methods=['GET'])
-@app.route('/movies/', methods=['GET'])
-@app.route('/', methods=['GET'])
+@application.route('/movies/all', methods=['GET'])
+@application.route('/movies', methods=['GET'])
+@application.route('/movies/', methods=['GET'])
+@application.route('/', methods=['GET'])
 
 def all_movies():
     """
@@ -23,7 +23,7 @@ def all_movies():
     return make_response(jsonify({"movies":movies}),200)
 
 
-@app.route('/movies/<movie_id>', methods=['GET'])
+@application.route('/movies/<movie_id>', methods=['GET'])
 def movie(movie_id):
     """
     Returns a movie  given a movie id 
@@ -36,8 +36,8 @@ def movie(movie_id):
     return make_response(jsonify({"movie": movie.serialize()}),200)
 
 
-@app.route('/movies/add', methods=['POST'])
-@app.route('/movies', methods=['POST'])
+@application.route('/movies/add', methods=['POST'])
+@application.route('/movies', methods=['POST'])
 def create_movie():
     """ 
     Create a movie object.
@@ -58,8 +58,8 @@ def create_movie():
     return make_response(jsonify({"movie": movie.serialize()}),201)
 
 
-@app.route('/movies/update/<movie_id>', methods=['PUT'])
-@app.route('/movies/<movie_id>', methods=['PUT'])
+@application.route('/movies/update/<movie_id>', methods=['PUT'])
+@application.route('/movies/<movie_id>', methods=['PUT'])
 def update_movie(movie_id):
     """
     Updates a movie based on its id.
@@ -88,8 +88,8 @@ def update_movie(movie_id):
     movie = ut.update_movie_by_id(movie_id,movie_name,movie_year)
     return make_response(jsonify(movie.serialize()))
 
-@app.route('/movies/delete/<movie_id>', methods=['DELETE'])
-@app.route('/movies/<movie_id>', methods=['DELETE'])
+@application.route('/movies/delete/<movie_id>', methods=['DELETE'])
+@application.route('/movies/<movie_id>', methods=['DELETE'])
 def del_movie(movie_id):
     """
     Deletes a movie based on its id. Then calls the Evaluations service
@@ -110,11 +110,11 @@ def del_movie(movie_id):
 
     return make_response(jsonify({"Deleted":True}),200)
 
-@app.errorhandler(404)
+@application.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
-@app.errorhandler(400)
+@application.errorhandler(400)
 def bad_request(error):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
