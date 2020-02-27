@@ -4,11 +4,10 @@ from flask import jsonify, make_response
 from flask import request, abort
 import logging as lg 
 from werkzeug.exceptions import NotFound, ServiceUnavailable
-
+from config import Config
 import requests
 
 import app.utils as ut
-
 
 
 @app.route('/', methods=['GET'])
@@ -47,7 +46,7 @@ def movie_evaluations(movie_id):
     """
 
     try:
-        response = requests.get("http://127.0.0.1:5000/movies/{}".format(movie_id))
+        response = requests.get("{}/movies/{}".format(Config.movies_url,movie_id))
         if response.status_code != 200:
             return make_response(jsonify({"error":"Movie not found"}),404)
 
@@ -87,7 +86,7 @@ def create_evaluation(movie_id):
         abort(400)
     description = request.json['description']
     try:
-        response = requests.get("http://127.0.0.1:5000/movies/{}".format(movie_id))
+        response = requests.get("{}/movies/{}".format(Config.movies_url,movie_id))
         if response.status_code != 200:
             return make_response(jsonify({"error":"Movie not found"}),404)
         evaluation = ut.add_evaluation(description,movie_id)

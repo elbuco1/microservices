@@ -4,8 +4,11 @@ from flask import jsonify, make_response
 from flask import request, abort
 import logging as lg 
 import requests
+from config import Config
 
 import app.utils as ut
+
+# url_eval = "http://127.0.0.1:5001"
 
 @application.route('/movies/all', methods=['GET'])
 @application.route('/movies', methods=['GET'])
@@ -104,7 +107,7 @@ def del_movie(movie_id):
 
     #TODO replace with amqp protocol?
     try:
-        requests.delete("http://127.0.0.1:5001/evaluations/movies/{}".format(movie_id))
+        requests.delete("{}/evaluations/movies/{}".format(Config.evaluations_url,movie_id))
     except requests.exceptions.ConnectionError:
         return make_response(jsonify({"error":"The Evaluations service is unavailable."}), 503)
 

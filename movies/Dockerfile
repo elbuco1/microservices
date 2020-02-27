@@ -7,7 +7,7 @@ WORKDIR /home/movies
 COPY requirements.txt requirements.txt
 RUN python -m venv venv
 RUN venv/bin/pip install -r requirements.txt
-# RUN venv/bin/pip install gunicorn
+RUN venv/bin/pip install gunicorn pymysql
 
 COPY app app
 COPY movies.py config.py boot.sh ./
@@ -21,3 +21,16 @@ USER movies
 EXPOSE 5000
 
 ENTRYPOINT ["./boot.sh"]
+
+# sudo docker build -t movies:latest .
+# sudo docker run --name movies  -p 8000:5000 --rm movies:latest
+
+
+# sudo docker run --name mysql_movies -d -e MYSQL_RANDOM_ROOT_PASSWORD=yes \
+#  -e MYSQL_DATABASE=movies -e MYSQL_USER=movies -e MYSQL_PASSWORD=movies \
+#      mysql/mysql-server:5.7
+
+# sudo docker run --name movies -d -p 8000:5000 --rm  \
+#     --link mysql_movies:dbserver \
+#     -e DATABASE_URL=mysql_movies+pymysql://movies:movies@dbserver/movies \
+#     movies:latest
