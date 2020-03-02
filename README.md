@@ -160,6 +160,15 @@ to run the containers in the background.
 You can find the app on "http://127.0.0.1:8081/evaluations"
 
 
+## Stopping all docker containers:
+
+<code>$ sudo docker stop $(sudo docker ps -a -q)</code> 
+
+To remove all containers:
+
+<code>$ sudo docker rm $(sudo docker ps -a -q)</code> 
+
+
 
 ## Server parameters for local deployment
 For now microservies are run on localhost.
@@ -171,10 +180,3 @@ For now microservies are run on localhost.
 
 
 
-To stop all containers:
-
-<code>$ sudo docker stop $(sudo docker ps -a -q)</code> 
-
-To remove all containers:
-
-<code>$ sudo docker rm $(sudo docker ps -a -q)</code> 
