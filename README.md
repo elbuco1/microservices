@@ -13,6 +13,17 @@ The two services interact through HTTP protocol for some of the requests.
 ### Run
 * Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
 * To start the micro-service, go in the **movies** directory: <code>$ cd microservices/movies</code>
+* If you want to use a mysql database instead of sqlite then install mysql: https://virtualzero.net/blog/install-mysql-for-a-flask-app-on-ubuntu-18.04-lts
+* If you want to use the sqlite db, then go in **config.py** and set
+```python
+class Config(object):
+    deploy = 'sqlite_local'
+```
+* If you want to use the mysql database, then go in **config.py** and set
+```python
+class Config(object):
+    deploy = 'mysql_local'
+```
 * Create a python3 virtual environment: <code>$ python3 -m venv movies_service</code>
 * Activate the environment: <code>$ source movies_service/bin/activate</code>
 * Install dependencies from requirements.txt file:<code>$ pip install -r requirements.txt</code>
@@ -48,6 +59,28 @@ response = requests.post(request, json = data)
 # View returned json
 response.json()
 ```
+### Deploy using Docker,  Gunicorn and MySQL
+To run the movies service using  gunicorn as application server
+and mysql server. 
+* Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
+* To start the micro-service, go in the **movies** directory: <code>$ cd microservices/movies</code>
+* Install docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+* Install docker-compose: https://docs.docker.com/compose/install/
+* Go in **config.py** and set
+```python
+class Config(object):
+    deploy = 'docker'
+```
+Then run:
+<code>$ sudo docker-compose up movies </code>
+
+or 
+
+<code>$ sudo docker-compose up -d movies </code> 
+
+to run the containers in the background.
+
+You can find the app on "http://127.0.0.1:8080/movies"
 
 
 ## Evaluations service
@@ -55,13 +88,24 @@ Open another terminal:
 ### Run
 * Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
 * To start the micro-service, go in the **movies** directory: <code>$ cd microservices/evaluations</code>
+* If you want to use a mysql database instead of sqlite then install mysql: https://virtualzero.net/blog/install-mysql-for-a-flask-app-on-ubuntu-18.04-lts
+* If you want to use the sqlite db, then go in **config.py** and set
+```python
+class Config(object):
+    deploy = 'sqlite_local'
+```
+* If you want to use the mysql database, then go in **config.py** and set
+```python
+class Config(object):
+    deploy = 'mysql_local'
+```
 * Create a python3 virtual environment: <code>$ python3 -m venv evaluations_service</code>
 * Activate the environment: <code>$ source evaluations_service/bin/activate</code>
 * Install dependencies from requirements.txt file:<code>$ pip install -r requirements.txt</code>
 * Initialize the database:<code>$ flask initdb</code>
 * Run the server: <code>$ flask run</code>
 
-Movies service runs on http://127.0.0.1:5001/
+evaluations service runs on http://127.0.0.1:5001/
 
 ### Test
 To list all available routes you can run <code>$ flask routes</code>
@@ -92,8 +136,45 @@ response = requests.post(request, json = data)
 response.json()
 ```
 
-## Server parameters
+### Deploy using Docker,  Gunicorn and MySQL
+To run the evaluations service using  gunicorn as application server
+and mysql server. 
+* Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
+* To start the micro-service, go in the **evaluations** directory: <code>$ cd microservices/evaluations</code>
+* Install docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+* Install docker-compose: https://docs.docker.com/compose/install/
+* Go in **config.py** and set
+```python
+class Config(object):
+    deploy = 'docker'
+```
+Then run:
+<code>$ sudo docker-compose up evaluations </code>
+
+or 
+
+<code>$ sudo docker-compose up -d evaluations </code> 
+
+to run the containers in the background.
+
+You can find the app on "http://127.0.0.1:8081/evaluations"
+
+
+
+## Server parameters for local deployment
 For now microservies are run on localhost.
 * Server is set in the file **app/.flaskenv**.
 * To set the debug mode to false, remove the line: <code>$ FLASK_ENV=development</code>
 * To set the port, change the line: <code>$ FLASK_RUN_PORT=5000</code>
+
+
+
+
+
+To stop all containers:
+
+<code>$ sudo docker stop $(sudo docker ps -a -q)</code> 
+
+To remove all containers:
+
+<code>$ sudo docker rm $(sudo docker ps -a -q)</code> 
