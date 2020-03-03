@@ -9,7 +9,7 @@ from config import Config
 import app.utils as ut
 
 # url_eval = "http://127.0.0.1:5001"
-
+# url_eval = Config.url_eval
 @application.route('/movies/all', methods=['GET'])
 @application.route('/movies', methods=['GET'])
 @application.route('/movies/', methods=['GET'])
