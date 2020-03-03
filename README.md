@@ -159,7 +159,21 @@ to run the containers in the background.
 
 You can find the app on "http://127.0.0.1:8081/evaluations"
 
-
+## Communication between services
+You need to specify for each service the URL of the other service.
+To that end:
+* Go in **movies/config.py**
+* set 
+```python
+class Config(object):
+    evaluations_url = '132.207.72.45'
+```
+* Go in **evaluations/config.py**
+* set 
+```python
+class Config(object):
+    movies_url = '132.207.72.59'
+```
 ## Stopping all docker containers:
 
 <code>$ sudo docker stop $(sudo docker ps -a -q)</code> 
