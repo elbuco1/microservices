@@ -159,9 +159,10 @@ to run the containers in the background.
 You can find the service on "http://127.0.0.1:8080/movies"
 
 To test the communication between the two services go to: "http://127.0.0.1:8081/evaluations/movies/1"
+
 You should get the following json:
 
-```json
+```python
     { 'evaluations':
         {
             0:{
