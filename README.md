@@ -32,10 +32,15 @@ class Config(object):
 * If you are using mysql database you need to create a user and a database as follows:
 
 In your terminal: <code>$ sudo mysql -u root -p</code>
+
 In the mysql command line:
+
 <code>mysql> CREATE DATABASE movies; </code>
+
 <code>mysql> CREATE USER 'movies'@'localhost' IDENTIFIED BY 'movies'; </code>
+
 <code>mysql> GRANT ALL PRIVILEGES ON movies.* TO 'movies'@'localhost'; </code>
+
 <code>mysql> FLUSH PRIVILEGES; </code>
 
 
@@ -94,10 +99,15 @@ class Config(object):
 * If you are using mysql database you need to create a user and a database as follows:
 
 In your terminal: <code>$ sudo mysql -u root -p</code>
+
 In the mysql command line:
+
 <code>mysql> CREATE DATABASE evaluations; </code>
+
 <code>mysql> CREATE USER 'evaluations'@'localhost' IDENTIFIED BY 'evaluations'; </code>
+
 <code>mysql> GRANT ALL PRIVILEGES ON evaluations.* TO 'evaluations'@'localhost'; </code>
+
 <code>mysql> FLUSH PRIVILEGES; </code>
 
 
