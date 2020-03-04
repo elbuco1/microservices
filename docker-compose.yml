@@ -9,7 +9,8 @@ services:
       context: ./movies
       dockerfile: Dockerfile_movies
     networks:
-      movies-network:
+      - app-network
+      - movies-network
     ports:
       - "8080:5000"
     volumes:
@@ -21,7 +22,7 @@ services:
     image: mysql:5.7
     container_name: db_movies
     networks:
-      movies-network:
+      - movies-network
     ports:
       - "32000:3306"
     environment:
@@ -38,7 +39,8 @@ services:
       context: ./evaluations/
       dockerfile: Dockerfile_evaluations
     networks:
-      evaluations-network:
+      - app-network
+      - evaluations-network
     ports:
       - "8081:5000"
     volumes:
@@ -50,7 +52,7 @@ services:
     image: mysql:5.7
     container_name: db_evaluations
     networks:
-      evaluations-network:
+      - evaluations-network
     ports:
       - "32001:3306"
     environment:
@@ -62,5 +64,6 @@ services:
 networks:
   movies-network:
   evaluations-network:
+  app-network:
   
   

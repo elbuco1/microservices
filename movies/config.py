@@ -2,8 +2,7 @@ import os
 
 class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
-    # evaluations_url = "132.207.72.45:8081"
-    evaluations_url = "evaluations:8081"
+    evaluations_url = "http://evaluations:5000"
 
     
     # Uncomment the desired option
