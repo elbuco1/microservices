@@ -28,6 +28,17 @@ class Config(object):
 * Create a python3 virtual environment: <code>$ python3 -m venv movies_service</code>
 * Activate the environment: <code>$ source movies_service/bin/activate</code>
 * Install dependencies from requirements.txt file:<code>$ pip install -r requirements.txt</code>
+
+* If you are using mysql database you need to create a user and a database as follows:
+
+In your terminal: <code>$ sudo mysql -u root -p</code>
+In the mysql command line:
+<code>mysql> CREATE DATABASE movies; </code>
+<code>mysql> CREATE USER 'movies'@'localhost' IDENTIFIED BY 'movies'; </code>
+<code>mysql> GRANT ALL PRIVILEGES ON movies.* TO 'movies'@'localhost'; </code>
+<code>mysql> FLUSH PRIVILEGES; </code>
+
+
 * Initialize the database:<code>$ flask initdb</code>
 * Run the server: <code>$ flask run</code>
 
@@ -79,6 +90,18 @@ class Config(object):
 * Create a python3 virtual environment: <code>$ python3 -m venv evaluations_service</code>
 * Activate the environment: <code>$ source evaluations_service/bin/activate</code>
 * Install dependencies from requirements.txt file:<code>$ pip install -r requirements.txt</code>
+
+* If you are using mysql database you need to create a user and a database as follows:
+
+In your terminal: <code>$ sudo mysql -u root -p</code>
+In the mysql command line:
+<code>mysql> CREATE DATABASE evaluations; </code>
+<code>mysql> CREATE USER 'evaluations'@'localhost' IDENTIFIED BY 'evaluations'; </code>
+<code>mysql> GRANT ALL PRIVILEGES ON evaluations.* TO 'evaluations'@'localhost'; </code>
+<code>mysql> FLUSH PRIVILEGES; </code>
+
+
+
 * Initialize the database:<code>$ flask initdb</code>
 * Run the server: <code>$ flask run</code>
 

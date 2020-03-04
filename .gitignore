@@ -5,8 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
-movies/movies_service
-evaluations/evaluation_service
+movies/movies_service/*
+evaluations/evaluation_service/*
 
 *.db
 .vscode
