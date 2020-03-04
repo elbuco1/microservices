@@ -2,7 +2,11 @@ import os
 
 class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
-    movies_url = "132.207.72.59"
+    # movies_url = "132.207.72.59:8080"
+    # movies_url = "127.0.0.1:8080"
+    movies_url = "movies:8080"
+
+
 
     # Uncomment the desired option
     deploy = 'docker'   # deploying on docker using mysql

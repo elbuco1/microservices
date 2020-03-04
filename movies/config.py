@@ -2,7 +2,10 @@ import os
 
 class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
-    evaluations_url = "132.207.72.45"
+    # evaluations_url = "132.207.72.45:8081"
+    evaluations_url = "evaluations:8081"
+
+    
     # Uncomment the desired option
     deploy = 'docker'   # deploying on docker using mysql
     # deploy = 'mysql_local' # deploying locally using mysql
