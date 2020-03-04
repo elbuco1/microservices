@@ -2,7 +2,8 @@ import os
 
 class Config(object):
     basedir = os.path.abspath(os.path.dirname(__file__))
-    movies_url = "http://movies:5000"
+    movies_url = "http://127.0.0.1:5000"
+
 
 
 
@@ -15,6 +16,7 @@ class Config(object):
 
     if deploy == 'docker':
         SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://evaluations:evaluations@db_evaluations/evaluations'
+        movies_url = "http://movies:5000"
     elif deploy == 'mysql_local':
         SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://evaluations:evaluations@localhost:3306/evaluations'
     elif deploy == 'sqlite_local':

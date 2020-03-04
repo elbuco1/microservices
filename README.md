@@ -8,6 +8,7 @@ There are two services:
 
 The two services interact through HTTP protocol for some of the requests.
 
+# Local deployment
 ## Movies service
 
 ### Run
@@ -59,30 +60,6 @@ response = requests.post(request, json = data)
 # View returned json
 response.json()
 ```
-### Deploy using Docker,  Gunicorn and MySQL
-To run the movies service using  gunicorn as application server
-and mysql server. 
-* Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
-* To start the micro-service, go in the **movies** directory: <code>$ cd microservices/movies</code>
-* Install docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
-* Install docker-compose: https://docs.docker.com/compose/install/
-* Go in **config.py** and set
-```python
-class Config(object):
-    deploy = 'docker'
-```
-Then run:
-<code>$ sudo docker-compose up movies </code>
-
-or 
-
-<code>$ sudo docker-compose up -d movies </code> 
-
-to run the containers in the background.
-
-You can find the app on "http://127.0.0.1:8080/movies"
-
-
 ## Evaluations service
 Open another terminal:
 ### Run
@@ -136,52 +113,6 @@ response = requests.post(request, json = data)
 response.json()
 ```
 
-### Deploy using Docker,  Gunicorn and MySQL
-To run the evaluations service using  gunicorn as application server
-and mysql server. 
-* Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
-* To start the micro-service, go in the **evaluations** directory: <code>$ cd microservices/evaluations</code>
-* Install docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
-* Install docker-compose: https://docs.docker.com/compose/install/
-* Go in **config.py** and set
-```python
-class Config(object):
-    deploy = 'docker'
-```
-Then run:
-<code>$ sudo docker-compose up evaluations </code>
-
-or 
-
-<code>$ sudo docker-compose up -d evaluations </code> 
-
-to run the containers in the background.
-
-You can find the app on "http://127.0.0.1:8081/evaluations"
-
-## Communication between services
-You need to specify for each service the URL of the other service.
-To that end:
-* Go in **movies/config.py**
-* set 
-```python
-class Config(object):
-    evaluations_url = '132.207.72.45'
-```
-* Go in **evaluations/config.py**
-* set 
-```python
-class Config(object):
-    movies_url = '132.207.72.59'
-```
-## Stopping all docker containers:
-
-<code>$ sudo docker stop $(sudo docker ps -a -q)</code> 
-
-To remove all containers:
-
-<code>$ sudo docker rm $(sudo docker ps -a -q)</code> 
-
 
 
 ## Server parameters for local deployment
@@ -191,6 +122,69 @@ For now microservies are run on localhost.
 * To set the port, change the line: <code>$ FLASK_RUN_PORT=5000</code>
 
 
+
+
+# Docker deployment
+## Deploy using Docker, Gunicorn and MySQL
+To deploy the microservices app using docker service using  gunicorn as application server
+and mysql server. 
+* Install docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+* Install docker-compose: https://docs.docker.com/compose/install/
+
+* Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
+* Go in the **microservices** directory: <code>$ cd microservices</code>
+* Go in **movies/config.py** and **evaluations/config.py** and set
+```python
+class Config(object):
+    deploy = 'docker'
+```
+* To start the evaluations micro-service run:
+
+<code>$ sudo docker-compose up evaluations </code>
+or 
+<code>$ sudo docker-compose up -d evaluations </code> 
+
+to run the containers in the background.
+
+You can find the service on "http://127.0.0.1:8081/evaluations"
+
+* To start the movies micro-service run:
+
+<code>$ sudo docker-compose up movies </code>
+or 
+<code>$ sudo docker-compose up -d movies </code> 
+
+to run the containers in the background.
+
+You can find the service on "http://127.0.0.1:8080/movies"
+
+To test the communication between the two services go to: "http://127.0.0.1:8081/evaluations/movies/1"
+You should get the following json:
+
+```json
+    { 'evaluations':
+        {
+            0:{
+                description:"What a baaad movie!"
+                id:1
+                movie_id:1
+            }
+        }	
+    }
+```
+
+
+## Stopping all docker containers:
+
+To shutdown the app:
+<code>$ sudo docker-compose down</code> 
+
+To stop all containers:
+<code>$ sudo docker stop $(sudo docker ps -a -q)</code> 
+
+To remove all containers:
+
+<code>$ sudo docker rm $(sudo docker ps -a -q)</code> 
 
 
 
