@@ -1,0 +1,6 @@
+zipz5ycfoo0u
+overall progress: 0 out of 1 tasks
+1/1:  
+overall progress: 0 out of 1 tasks
+overall progress: 0 out of 1 tasks
+service update paused: update paused due to failure or early termination of task z06qh9rauqixg009lz7flp5nu

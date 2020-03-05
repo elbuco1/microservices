@@ -19,7 +19,7 @@ RUN chmod +x boot.sh
 RUN chown -R evaluations:evaluations ./
 USER evaluations
 
-EXPOSE 5001
+EXPOSE 5000
 
 ENTRYPOINT ["./boot.sh"]
 

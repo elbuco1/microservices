@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Waiting for MySQL..."
-sleep 15
+sleep 60
 echo "Resume..."
 
 source venv/bin/activate

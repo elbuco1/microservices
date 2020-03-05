@@ -22,7 +22,7 @@ curl http://localhost:5000/v2/
 
 
 # Building images for swarm 
-sudo docker-compose -f docker-compose-swarm.yml up -d
+sudo docker-compose -f docker-compose-swarm.yml up -d --build
 
 # List containers
 sudo docker-compose ps
@@ -52,9 +52,24 @@ curl http://localhost:8081/evaluations/movies/1
 # expected result: 
 # {"evaluations":[{"description":"What a baaad movie!","id":1,"movie_id":1}]}
 
+# see on what node the service is deployed
+sudo docker service ps stack_db_evaluations
+
+
+# update service:
+# find id:  
+sudo docker stack services stack
+# update:
+sudo docker service update --force <ID>
+
+
+
+
+
+
 
 # stop stack
-sudo docker stack rm stacktest
+sudo docker stack rm stack
 
 # stop local registry 
 sudo docker service rm registry
