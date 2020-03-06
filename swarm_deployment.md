@@ -1,87 +1,160 @@
-ifconfig 
+# Sample microservices architecture using python flask and sql alchemy
 
+# Docker deployment
+## Deploy using Swarm, Docker, Gunicorn and MySQL
+### Setup
+To deploy multiple instances of the microservices on a cluster of hosts use the following
+instructions.
+
+* Install docker: https://docs.docker.com/install/linux/docker-ce/ubuntu/
+* Install docker-compose: https://docs.docker.com/compose/install/
+* Clone repository: <code>$ git clone https://github.com/elbuco1/microservices.git</code>
+* Go in the **microservices** directory: <code>$ cd microservices</code>
+* Go in **movies/config.py** and **evaluations/config.py** and set
+```python
+class Config(object):
+    deploy = 'docker'
+```
+
+* The databases run on separate containers. They need some time to initialized. We need a
+way to make evaluations service and movie service to wait for their respective databases
+to be up. To that end we use the bash command <code> sleep x </code> where x is a number of 
+seconds. You should go in the files **movies/boot.sh** and **evaluations/boot.sh** and set 
+the waiting time. 60 seconds should be enough:
+```bash
+echo "Waiting for MySQL..."
+sleep 60
+echo "Resume..."
+```
+
+
+* In **docker-compose-swarm.yml**, you can set for each service the number of instances required:
+
+```bash
+services: 
+  movies:
+    image: 127.0.0.1:5000/movies-app
+      ...
+    deploy:
+      mode: replicated
+      replicas: 3
+```
+Default is 3 instances for the movies service and the evaluation service. One instance for the
+movies database container and for the evaluations database container.
+
+
+### Deploy
+
+* You need multiple hosts available. One is going to be the manager. The other ones will be the workers.
+We deploy from the manager.
+
+* First open a terminal on the manager and find its ip adress using:
+
+<code>$ ifconfig </code>
+
+```bash
 enp0s31f6:  ...
-        inet 132.207.72.45  ...
+        inet 132.207.x.x  ...
             ...
+```
+Here the manager ip address is 132.207.x.x .
+
+* On the manager initialize the swarm: 
+
+<code>$ sudo docker swarm init --advertise-addr 132.207.x.x </code>
+
+on the ouput you can find a command looking like:
+
+<code>$ sudo docker swarm join --token [ some-id ] 132.207.x.x:2377 </code>
+
+* On every worker, open a terminal and paste it there. This will make the workers join the swarm.
 
 
+#### Create a local registry for images
+
+* We need to create a local repository of docker images on the manager. This way we can build and store
+the docker images of our services using docker. We will need the already built images for the swarm deployment.
+
+<code>$ sudo docker service create --name registry --publish published=5000,target=5000 registry:2</code>
+
+* You can test the registry using: 
+
+<code>$ curl http://localhost:5000/v2/ </code>
 
 
-#on manager:
-sudo docker swarm init --advertise-addr 132.207.72.45
+#### Building images for swarm 
 
-#on worker-i:
-sudo docker swarm join --token SWMTKN-1-2asjk309buj3a9yyz8i1krh9xvgqb6ykhzbkjfk9frraeya5k8-e2iowjdf7msjjqda2oxwomagm 132.207.72.45:2377
+* We then build and run the docker images using docker-compose:
 
-
-# Create a local registry for images
-sudo docker service create --name registry --publish published=5000,target=5000 registry:2
-
-# Test registry 
-curl http://localhost:5000/v2/
-
-
-# Building images for swarm 
 sudo docker-compose -f docker-compose-swarm.yml up -d --build
 
-# List containers
-sudo docker-compose ps
+* Wait aroud 60 seconds and test the app:
 
-# Test app 
-curl http://localhost:8081/evaluations/movies/1
+<code>$ curl http://localhost:8081/evaluations/movies/1 </code>
 
-# expected result: 
-# {"evaluations":[{"description":"What a baaad movie!","id":1,"movie_id":1}]}
+The result should be:
 
-# shut down the app 
-sudo docker-compose down --volumes
+<code> {"evaluations":[{"description":"What a baaad movie!","id":1,"movie_id":1}]} </code>
 
-# push images to the local registry 
-sudo docker-compose -f docker-compose-swarm.yml push
+* Now shut down the app:
 
-# deploy stack on the swarm
-sudo docker stack deploy --compose-file docker-compose-swarm.yml stack
+<code>$ sudo docker-compose down --volumes </code>
 
-# check deployment
-sudo docker stack services stack
+* And push the built docker images to the local registry 
 
+<code>$ sudo docker-compose -f docker-compose-swarm.yml push </code>
 
-# Test app 
-curl http://localhost:8081/evaluations/movies/1
+#### Deploying on the swarm 
 
-# expected result: 
-# {"evaluations":[{"description":"What a baaad movie!","id":1,"movie_id":1}]}
+* Deploy the stack on the swarm
+<code>$ sudo docker stack deploy --compose-file docker-compose-swarm.yml [ stack-name ] </code>
 
-# see on what node the service is deployed
-sudo docker service ps stack_db_evaluations
-sudo docker service ps stack_movies
-sudo docker service ps stack_db_movies
-sudo docker service ps stack_evaluations
+* You can check the deployment of every service using: 
 
+<code>$ sudo docker stack services [ stack-name ] </code>
 
-# update service:
-# find id:  
-sudo docker stack services stack
-# update:
-sudo docker service update --force <ID>
+* Again wait around 60 seconds and test the app:
+
+<code>$ curl http://localhost:8081/evaluations/movies/1 </code>
+
+The result should be:
+
+<code> {"evaluations":[{"description":"What a baaad movie!","id":1,"movie_id":1}]} </code>
 
 
+* You can test the app from another host connected to the network using the ip address of the manager:
+
+<code>$ curl http://132.207.x.x:8081/evaluations/movies/1 </code>
+
+* You can see on what worker the service instances are deployed:
+
+<code>$  sudo docker service ps stack_db_evaluations  </code>
+
+<code>$  sudo docker service ps stack_movies </code>
+
+<code>$  sudo docker service ps stack_db_movies </code>
+
+<code>$  sudo docker service ps stack_evaluations </code>
+
+
+#### Stop and clean
 
 
 
 
 
-# stop stack
-sudo docker stack rm stack
+* Stop the stack: 
 
-# stop local registry 
-sudo docker service rm registry
+<code>$ sudo docker stack rm stack </code>
+
+* Stop local registry 
+<code>$ sudo docker service rm registry </code>
 
 
-# leave swarm
+* Make manager leave the swarm:
 
-#on manager:
-sudo docker swarm leave --force
+<code>$ sudo docker swarm leave --force </code>
 
-#on worker-i:
-sudo docker swarm leave 
+* Make worker leave the swarm:
+
+<code>$ sudo docker swarm leave </code>
