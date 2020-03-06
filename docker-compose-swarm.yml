@@ -1,5 +1,4 @@
 # docker-compose.yml
-# https://dev.to/ishankhare07/nginx-as-reverse-proxy-for-a-flask-app-using-docker-3ajg
 version: '3'
 services: 
   movies:
@@ -8,27 +7,19 @@ services:
     build:
       context: ./movies
       dockerfile: Dockerfile_movies
-    # networks:
-    #   - app-network
-    #   - movies-network
     ports:
       - "8080:5000"
-  #   volumes:
-  #     - "./:/app"
     depends_on:
       - db_movies
     deploy:
       mode: replicated
       replicas: 3
-      # labels: [APP=VOTING]
       placement:
         constraints: [node.role == worker]
  
   db_movies:
     image: mysql:5.7
     container_name: db_movies
-    # networks:
-    #   - movies-network
     ports:
       - "32000:3306"
     environment:
@@ -39,7 +30,6 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-      # labels: [APP=VOTING]
       placement:
         constraints: [node.role == worker]
 
@@ -50,27 +40,19 @@ services:
     build:
       context: ./evaluations/
       dockerfile: Dockerfile_evaluations
-    # networks:
-    #   - app-network
-    #   - evaluations-network
     ports:
       - "8081:5000"
-    # volumes:
-    #   - "./:/app"
     depends_on:
       - db_evaluations
     deploy:
       mode: replicated
       replicas: 3
-      # labels: [APP=VOTING]
       placement:
         constraints: [node.role == worker]
  
   db_evaluations:
     image: mysql:5.7
     container_name: db_evaluations
-    # networks:
-    #   - evaluations-network
     ports:
       - "32001:3306"
     environment:
@@ -81,13 +63,7 @@ services:
     deploy:
       mode: replicated
       replicas: 1
-      # labels: [APP=VOTING]
       placement:
         constraints: [node.role == worker]
 
-# networks:
-#   movies-network:
-#   evaluations-network:
-#   app-network:
-  
   
