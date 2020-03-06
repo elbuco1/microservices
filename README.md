@@ -8,16 +8,16 @@ There are two services:
 
 The two services interact through HTTP protocol for some of the requests.
 
-# Single host dev deployment
+## Single host dev deployment
 
 To deploy the application on a single host for development purposes, follow the instructions in the file: **local_deployment.md**.
 
 
-# Deploy using Docker, Gunicorn and MySQL
+## Deploy using Docker, Gunicorn and MySQL
 To deploy the microservices app using docker service using  gunicorn as application server on a single host, follow the instructions
 in the file **docker_deployment.md**.
 
 
-# Multi-host, multi instance deployment using swarm and compose
+## Multi-host, multi instance deployment using swarm and compose
 To deploy the microservices app on multiple hosts, using multiple instances for each service, follow the instructions
 in the file **swarm_deployment.md**.
