@@ -54,6 +54,9 @@ curl http://localhost:8081/evaluations/movies/1
 
 # see on what node the service is deployed
 sudo docker service ps stack_db_evaluations
+sudo docker service ps stack_movies
+sudo docker service ps stack_db_movies
+sudo docker service ps stack_evaluations
 
 
 # update service:

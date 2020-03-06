@@ -17,6 +17,12 @@ services:
   #     - "./:/app"
     depends_on:
       - db_movies
+    deploy:
+      mode: replicated
+      replicas: 3
+      # labels: [APP=VOTING]
+      placement:
+        constraints: [node.role == worker]
  
   db_movies:
     image: mysql:5.7
@@ -30,6 +36,12 @@ services:
       MYSQL_DATABASE: movies
       MYSQL_USER: movies
       MYSQL_PASSWORD: movies
+    deploy:
+      mode: replicated
+      replicas: 1
+      # labels: [APP=VOTING]
+      placement:
+        constraints: [node.role == worker]
 
 
   evaluations:
@@ -47,6 +59,12 @@ services:
     #   - "./:/app"
     depends_on:
       - db_evaluations
+    deploy:
+      mode: replicated
+      replicas: 3
+      # labels: [APP=VOTING]
+      placement:
+        constraints: [node.role == worker]
  
   db_evaluations:
     image: mysql:5.7
@@ -60,6 +78,12 @@ services:
       MYSQL_DATABASE: evaluations
       MYSQL_USER: evaluations
       MYSQL_PASSWORD: evaluations
+    deploy:
+      mode: replicated
+      replicas: 1
+      # labels: [APP=VOTING]
+      placement:
+        constraints: [node.role == worker]
 
 # networks:
 #   movies-network:
