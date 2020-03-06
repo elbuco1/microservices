@@ -6,6 +6,8 @@ There are two services:
 * Movies: allows to manage movie informations. Each movie has two attributes: the movie name and its release year. The service is implemented as a REST API. All required requests are implemented.
 * Evaluations: allows to manage the movie evaluations. Each movie can have any number of evaluation. An evaluation has two attributes: the description and the evaluated movie id. The service is implemented as a REST API. All required requests are implemented.
 
+Each service interacts with its own database.
+
 The two services interact through HTTP protocol for some of the requests.
 
 ## Single host dev deployment

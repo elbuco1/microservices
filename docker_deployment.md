@@ -14,6 +14,18 @@ and mysql server.
 class Config(object):
     deploy = 'docker'
 ```
+
+* The databases run on separate containers. They need some time to initialized. We need a
+way to make evaluations service and movie service to wait for their respective databases
+to be up. To that end we use the bash command <code> sleep x </code> where x is a number of 
+seconds. You should go in the files **movies/boot.sh** and **evaluations/boot.sh** and set 
+the waiting time to 20 seconds:
+```bash
+echo "Waiting for MySQL..."
+sleep 20
+echo "Resume..."
+```
+
 * To start the evaluations micro-service run:
 
 <code>$ sudo docker-compose up evaluations </code>
