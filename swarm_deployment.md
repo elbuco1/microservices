@@ -1,5 +1,8 @@
 # Sample microservices architecture using python flask and sql alchemy
 
+https://docs.docker.com/engine/swarm/stack-deploy/
+https://docs.docker.com/network/network-tutorial-overlay/
+
 # Docker deployment
 ## Deploy using Swarm, Docker, Gunicorn and MySQL
 ### Setup

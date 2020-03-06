@@ -1,4 +1,14 @@
 # Sample microservices architecture using python flask and sql alchemy
+* This is an example of a microservices application. It is implemented using flask and sql_alchemy. 
+* The microservices are implemented as REST APIs and can be queried using http. On some requests, the services
+interact over http.
+* We deploy the application through three different ways:
+    * A basic development deployment on a single host using the native server provided with flask
+    * A deployment on a single host using docker. We use gunicorn as app server and mysql as database server.
+    * Finally, using swarm we deploy the application on multiple hosts using multiple instances for each service.
+
+A tutorial for each deployment type is available in the repository.
+
 
 ## Global architecture
 
